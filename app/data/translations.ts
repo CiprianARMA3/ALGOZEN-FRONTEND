@@ -68,7 +68,7 @@ export const translations = {
     },
     IT: {
         navbar: {
-            whyKapry: "Perché Kapry",
+            whyKapry: "Perché InvestZEN",
             pricing: "Prezzi",
             trading: "Trading",
             services: "Servizi",
@@ -136,7 +136,7 @@ export const translations = {
     // Adding placeholders for other languages requested by user
     DE: {
         navbar: {
-            whyKapry: "Warum Kapry", pricing: "Preise", trading: "Handel", services: "Dienstleistungen", education: "Bildung", aboutUs: "Über uns", individuals: "Für Privatpersonen", enterprises: "Für Unternehmen", support: "Support", login: "Login", openAccount: "Konto eröffnen", searchPlaceholder: "Suchen...", suggested: "Vorgeschlagen", language: "Sprache", overview: "Übersicht", features: "Funktionen", security: "Sicherheit", fees: "Gebühren", commissions: "Kommissionen", marginRates: "Marginsätze", interestRates: "Zinssätze", platforms: "Plattformen", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portfolio", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Ressourcen", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
+            whyKapry: "Warum InvestZEN", pricing: "Preise", trading: "Handel", services: "Dienstleistungen", education: "Bildung", aboutUs: "Über uns", individuals: "Für Privatpersonen", enterprises: "Für Unternehmen", support: "Support", login: "Login", openAccount: "Konto eröffnen", searchPlaceholder: "Suchen...", suggested: "Vorgeschlagen", language: "Sprache", overview: "Übersicht", features: "Funktionen", security: "Sicherheit", fees: "Gebühren", commissions: "Kommissionen", marginRates: "Marginsätze", interestRates: "Zinssätze", platforms: "Plattformen", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portfolio", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Ressourcen", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
             institutionalAccounts: "Institutionelle Konten",
             hedgeFunds: "Hedgefonds",
             propTrading: "Eigenhandelsgruppen",
@@ -160,7 +160,7 @@ export const translations = {
     },
     ES: {
         navbar: {
-            whyKapry: "¿Por qué Kapry?", pricing: "Precios", trading: "Trading", services: "Servicios", education: "Educación", aboutUs: "Sobre nosotros", individuals: "Para Particulares", enterprises: "Para Empresas", support: "Soporte", login: "Acceso", openAccount: "Abrir cuenta", searchPlaceholder: "Buscar...", suggested: "Sugerido", language: "Idioma", overview: "Visión general", features: "Características", security: "Seguridad", fees: "Tarifas", commissions: "Comisiones", marginRates: "Tasas de margen", interestRates: "Tipos de interés", platforms: "Plataformas", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Cartera", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Recursos", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
+            whyKapry: "¿Por qué InvestZEN?", pricing: "Precios", trading: "Trading", services: "Servicios", education: "Educación", aboutUs: "Sobre nosotros", individuals: "Para Particulares", enterprises: "Para Empresas", support: "Soporte", login: "Acceso", openAccount: "Abrir cuenta", searchPlaceholder: "Buscar...", suggested: "Sugerido", language: "Idioma", overview: "Visión general", features: "Características", security: "Seguridad", fees: "Tarifas", commissions: "Comisiones", marginRates: "Tasas de margen", interestRates: "Tipos de interés", platforms: "Plataformas", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Cartera", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Recursos", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
             institutionalAccounts: "Cuentas Institucionales",
             hedgeFunds: "Fondos de Cobertura",
             propTrading: "Grupos de Trading Propietario",
@@ -184,7 +184,7 @@ export const translations = {
     },
     PT: {
         navbar: {
-            whyKapry: "Porquê a Kapry", pricing: "Preçário", trading: "Negociação", services: "Serviços", education: "Educação", aboutUs: "Sobre nós", individuals: "Para Indivíduos", enterprises: "Para Empresas", support: "Suporte", login: "Acesso", openAccount: "Abrir conta", searchPlaceholder: "Pesquisar...", suggested: "Sugestões", language: "Idioma", overview: "Visão geral", features: "Funcionalidades", security: "Segurança", fees: "Taxas", commissions: "Comissões", marginRates: "Taxas de margem", interestRates: "Taxas de juro", platforms: "Plataformas", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portefólio", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Recursos", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
+            whyKapry: "Porquê a InvestZEN", pricing: "Preçário", trading: "Negociação", services: "Serviços", education: "Educação", aboutUs: "Sobre nós", individuals: "Para Indivíduos", enterprises: "Para Empresas", support: "Suporte", login: "Acesso", openAccount: "Abrir conta", searchPlaceholder: "Pesquisar...", suggested: "Sugestões", language: "Idioma", overview: "Visão geral", features: "Funcionalidades", security: "Segurança", fees: "Taxas", commissions: "Comissões", marginRates: "Taxas de margem", interestRates: "Taxas de juro", platforms: "Plataformas", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portefólio", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Recursos", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
             institutionalAccounts: "Contas Institucionais",
             hedgeFunds: "Fundos de Hedge",
             propTrading: "Grupos de Negociação Proprietária",
@@ -208,7 +208,7 @@ export const translations = {
     },
     RO: {
         navbar: {
-            whyKapry: "De ce Kapry", pricing: "Prețuri", trading: "Tranzacționare", services: "Servicii", education: "Educație", aboutUs: "Despre noi", individuals: "Pentru Persoane Fizice", enterprises: "Pentru Companii", support: "Suport", login: "Autentificare", openAccount: "Deschide cont", searchPlaceholder: "Caută...", suggested: "Sugestii", language: "Limbă", overview: "Prezentare generală", features: "Funcționalități", security: "Securitate", fees: "Taxe", commissions: "Comisioane", marginRates: "Rate de marjă", interestRates: "Ratele dobânzilor", platforms: "Platforme", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portofoliu", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Resurse", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
+            whyKapry: "De ce InvestZEN", pricing: "Prețuri", trading: "Tranzacționare", services: "Servicii", education: "Educație", aboutUs: "Despre noi", individuals: "Pentru Persoane Fizice", enterprises: "Pentru Companii", support: "Suport", login: "Autentificare", openAccount: "Deschide cont", searchPlaceholder: "Caută...", suggested: "Sugestii", language: "Limbă", overview: "Prezentare generală", features: "Funcționalități", security: "Securitate", fees: "Taxe", commissions: "Comisioane", marginRates: "Rate de marjă", interestRates: "Ratele dobânzilor", platforms: "Platforme", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Portofoliu", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Resurse", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
             institutionalAccounts: "Conturi Instituționale",
             hedgeFunds: "Fonduri de Hedge",
             propTrading: "Grupuri de Tranzacționare Proprietare",
@@ -232,7 +232,7 @@ export const translations = {
     },
     RU: {
         navbar: {
-            whyKapry: "Почему Kapry", pricing: "Цены", trading: "Трейдинг", services: "Услуги", education: "Обучение", aboutUs: "О нас", individuals: "Для Частных Лиц", enterprises: "Для Предприятий", support: "Поддержка", login: "Вход", openAccount: "Открыть счет", searchPlaceholder: "Поиск...", suggested: "Предложенное", language: "Язык", overview: "Обзор", features: "Особенности", security: "Безопасность", fees: "Комиссии", commissions: "Комиссионные", marginRates: "Маржинальные ставки", interestRates: "Процентные ставки", platforms: "Платформы", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Портфель", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Ресурсы", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
+            whyKapry: "Почему InvestZEN", pricing: "Цены", trading: "Трейдинг", services: "Услуги", education: "Обучение", aboutUs: "О нас", individuals: "Для Частных Лиц", enterprises: "Для Предприятий", support: "Поддержка", login: "Вход", openAccount: "Открыть счет", searchPlaceholder: "Поиск...", suggested: "Предложенное", language: "Язык", overview: "Обзор", features: "Особенности", security: "Безопасность", fees: "Комиссии", commissions: "Комиссионные", marginRates: "Маржинальные ставки", interestRates: "Процентные ставки", platforms: "Платформы", tws: "Trader Workstation", mobile: "  Mobile", clientPortal: "Client Portal", portfolio: "Портфель", globalAnalyst: "GlobalAnalyst", portfolioAnalyst: "PortfolioAnalyst", resources: "Ресурсы", campus: "  Campus", academy: "Traders' Academy", news: "Traders' Insight",
             institutionalAccounts: "Институциональные счета",
             hedgeFunds: "Хедж-фонды",
             propTrading: "Проп-трейдинговые группы",

@@ -233,8 +233,8 @@ const Navbar = ({ className = "" }) => {
     return (
         <div className={`fixed top-0 left-0 right-0 z-[100] flex flex-col items-center pointer-events-none ${className}`}>
 
-            {/* 1. BANDAID (ANNOUNCEMENT) */}
-            <div className="w-full bg-[#fbbc04] pointer-events-auto overflow-hidden shadow-sm min-h-fit">
+            {/* 1. BANDAID (ANNOUNCEMENT) bg-[#fbbc04] old ,green-300,purple-300   */}
+            <div className="w-full bg-purple-300 pointer-events-auto overflow-hidden shadow-sm min-h-fit">
                 <div className="max-w-7xl mx-auto px-4 py-2 flex flex-col sm:flex-row items-center justify-center gap-x-2 gap-y-1 text-[11px] font-bold text-black text-center h-full">
                     <span>{translations[language].hero.announcement}</span>
                     <div className="flex gap-x-3 gap-y-1 flex-wrap justify-center items-center">
