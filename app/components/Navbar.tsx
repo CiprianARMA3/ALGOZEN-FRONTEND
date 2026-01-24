@@ -93,10 +93,10 @@ const Navbar = ({ className = "" }) => {
                     ]
                 },
                 {
-                    title: 'INSTITUTIONAL ACCOUNTS',
+                    title: t.institutionalAccounts.toUpperCase(),
                     links: [
-                        { name: 'Hedge Funds', href: '/en/accounts/hedge-fund' },
-                        { name: 'Proprietary Trading Groups', href: '/en/accounts/proprietary-trading-group' },
+                        { name: t.hedgeFunds, href: '/en/accounts/hedge-fund' },
+                        { name: t.propTrading, href: '/en/accounts/proprietary-trading-group' },
                     ]
                 }
             ]
@@ -106,16 +106,16 @@ const Navbar = ({ className = "" }) => {
             href: '/support/home',
             sections: [
                 {
-                    title: 'HELP CENTER',
+                    title: t.helpCenter.toUpperCase(),
                     links: [
-                        { name: 'Fund Your Account', href: '/en/support/fund-my-account' },
-                        { name: 'Browse Our FAQs', href: '/en/general/contact/ibot' },
-                        { name: 'Tax Information', href: '/en/support/reports-and-dates' },
+                        { name: t.fundAccount, href: '/en/support/fund-my-account' },
+                        { name: t.browseFaqs, href: '/en/general/contact/ibot' },
+                        { name: t.taxInfo, href: '/en/support/reports-and-dates' },
                     ]
                 }
             ]
         },
-        { name: 'Careers', href: '/general/about/careers' },
+        { name: t.careers, href: '/general/about/careers' },
         { name: t.aboutUs, href: '/general/about/info' },
     ];
 
@@ -127,9 +127,9 @@ const Navbar = ({ className = "" }) => {
                 {
                     title: t.overview.toUpperCase(),
                     links: [
-                        { name: 'Low Commissions', href: '/en/whyib/overview.php' },
-                        { name: 'Global Access', href: '/en/trading/products-exchanges.php' },
-                        { name: 'Premier Technology', href: '/en/trading/trading-platforms.php' },
+                        { name: t.lowCommissions, href: '/en/whyib/overview.php' },
+                        { name: t.globalAccess, href: '/en/trading/products-exchanges.php' },
+                        { name: t.premierTech, href: '/en/trading/trading-platforms.php' },
                     ]
                 }
             ]
@@ -446,14 +446,14 @@ const Navbar = ({ className = "" }) => {
                             <div className="flex items-center gap-3">
                                 {user ? (
                                     <>
-                                        <a href="/dashboard" className="text-[11px] font-black uppercase tracking-widest text-[#202124] hover:text-purple-600 transition-colors">Portal</a>
+                                        <a href="/dashboard" className="text-[11px] font-black uppercase tracking-widest text-[#202124] hover:text-purple-600 transition-colors">{t.portal}</a>
                                         <button onClick={handleLogout} className="p-2 text-zinc-400 hover:text-red-600 transition-colors">
                                             <LogOut size={18} />
                                         </button>
                                     </>
                                 ) : (
                                     <>
-                                        <a href="/auth/login" className="text-[11px] font-black uppercase tracking-widest text-[#202124] hover:text-purple-600 transition-colors">Log In</a>
+                                        <a href="/auth/login" className="text-[11px] font-black uppercase tracking-widest text-[#202124] hover:text-purple-600 transition-colors">{t.login}</a>
                                         <a href="/auth/register" className="bg-[#202124] text-white px-6 py-2.5 rounded-full text-[11px] font-black uppercase tracking-widest hover:bg-black transition-all active:scale-95 shadow-lg shadow-zinc-900/10">
                                             {t.openAccount}
                                         </a>
@@ -465,7 +465,16 @@ const Navbar = ({ className = "" }) => {
 
                     {/* MOBILE TRIGGER */}
                     <div className="lg:hidden flex items-center gap-4">
-                        {!user && (
+                        {user ? (
+                            <motion.a
+                                whileHover={{ scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                                href="/dashboard"
+                                className="bg-[#202124] text-white px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest"
+                            >
+                                {t.portal}
+                            </motion.a>
+                        ) : (
                             <motion.a
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
@@ -512,9 +521,9 @@ const Navbar = ({ className = "" }) => {
                                     className="w-full bg-zinc-50 border-2 border-zinc-100 rounded-2xl py-5 pl-12 pr-32 text-lg font-medium focus:outline-none focus:border-purple-600/30 transition-all shadow-inner"
                                 />
                                 <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                                    <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest bg-zinc-100 px-2 py-1 rounded-md">Esc</span>
+                                    <span className="text-[10px] font-black text-zinc-400 uppercase tracking-widest bg-zinc-100 px-2 py-1 rounded-md">{t.esc}</span>
                                     <button className="bg-[#202124] text-white px-6 py-2.5 rounded-xl font-black uppercase tracking-widest text-[10px] hover:bg-black transition-all shadow-lg shadow-zinc-900/20">
-                                        Search
+                                        {t.searchButton}
                                     </button>
                                 </div>
                             </div>
@@ -562,7 +571,7 @@ const Navbar = ({ className = "" }) => {
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" size={16} />
                                 <input
                                     type="text"
-                                    placeholder="Ask a question"
+                                    placeholder={t.askQuestion}
                                     className="w-full bg-white border border-zinc-200 rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20"
                                 />
                                 <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#202124] text-white p-1.5 rounded-md hover:bg-black transition-colors">
@@ -582,7 +591,13 @@ const Navbar = ({ className = "" }) => {
                                         exit={{ x: -20, opacity: 0 }}
                                         className="divide-y divide-zinc-50"
                                     >
-                                        <a href="/auth/login" className="block p-5 text-purple-600 font-black uppercase tracking-widest text-xs border-b border-zinc-100 bg-purple-50/30">Portal Login</a>
+                                        {user ? (
+                                            <button onClick={handleLogout} className="w-full text-left p-5 text-red-600 font-black uppercase tracking-widest text-xs border-b border-zinc-100 bg-red-50/30 hover:bg-red-50 transition-colors">
+                                                {t.logout}
+                                            </button>
+                                        ) : (
+                                            <a href="/auth/login" className="block p-5 text-purple-600 font-black uppercase tracking-widest text-xs border-b border-zinc-100 bg-purple-50/30">{t.portalLogin}</a>
+                                        )}
 
                                         {/* Main Submenus (Pricing, Trading, etc.) */}
                                         {MAIN_LINKS.concat(TOP_LINKS.filter(l => l.sections)).map((link) => (
@@ -634,7 +649,7 @@ const Navbar = ({ className = "" }) => {
                                             className="w-full p-4 flex items-center gap-2 text-xs font-bold text-zinc-400 border-b border-zinc-100 hover:bg-zinc-50"
                                         >
                                             <ChevronDown className="rotate-90" size={16} />
-                                            BACK
+                                            {t.back.toUpperCase()}
                                         </button>
                                         <div className="p-6">
                                             <div className="text-[10px] font-black text-purple-600 uppercase tracking-[0.3em] mb-6">
@@ -691,9 +706,15 @@ const Navbar = ({ className = "" }) => {
 
                         {/* 4. MOBILE FOOTER */}
                         <div className="p-4 border-t border-zinc-100 bg-white">
-                            <a href="/auth/register" className="block w-full py-4 bg-[#202124] text-white text-center rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-zinc-900/20">
-                                {t.openAccount}
-                            </a>
+                            {user ? (
+                                <a href="/dashboard" className="block w-full py-4 bg-[#202124] text-white text-center rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-zinc-900/20">
+                                    {t.portal}
+                                </a>
+                            ) : (
+                                <a href="/auth/register" className="block w-full py-4 bg-[#202124] text-white text-center rounded-xl font-black uppercase tracking-widest text-xs shadow-xl shadow-zinc-900/20">
+                                    {t.openAccount}
+                                </a>
+                            )}
                         </div>
                     </motion.div>
                 )}

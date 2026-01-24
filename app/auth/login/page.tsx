@@ -1,108 +1,185 @@
 "use client";
 
-import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import useRedirectIfAuth from "@/hooks/useRedirectIfAuth";
+import Link from "next/link";
+import {
+    ArrowLeft,
+    Mail,
+    Lock,
+    Eye,
+    EyeOff,
+    Zap,
+    Loader2
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabase = createClient();
 
 export default function LoginPage() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    useRedirectIfAuth();
     const router = useRouter();
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [errorMsg, setErrorMsg] = useState("");
+    const [loading, setLoading] = useState(false);
 
-    const handleLogin = async (e: React.FormEvent) => {
-        e.preventDefault();
+    // --- PRESERVED BACKEND LOGIC ---
+    const handleLogin = async () => {
+        setErrorMsg("");
         setLoading(true);
-        setError(null);
-
         try {
-            const { error } = await supabase.auth.signInWithPassword({
-                email,
+            const { data, error } = await supabase.auth.signInWithPassword({
+                email: email.trim(),
                 password,
             });
+            if (error) {
+                setErrorMsg(error.message);
+                setLoading(false);
+                return;
+            }
+            if (!data.user) {
+                setErrorMsg("No user found");
+                setLoading(false);
+                return;
+            }
 
-            if (error) throw error;
+            // Basic redirection to dashboard
+            router.push("/dashboard");
 
-            router.push('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'Failed to log in');
+            setErrorMsg(err.message || "An unexpected error occurred");
+            setLoading(false);
+        }
+    };
+
+    const handleForgotPassword = async () => {
+        if (!email) {
+            setErrorMsg("Please enter your email address to reset your password.");
+            return;
+        }
+        setLoading(true);
+        try {
+            const { error } = await supabase.auth.resetPasswordForEmail(email, {
+                redirectTo: `${window.location.origin}/auth/callback?next=/auth/update-password`,
+            });
+            if (error) throw error;
+            setErrorMsg("Password reset email sent! Check your inbox.");
+        } catch (err: any) {
+            setErrorMsg(err.message);
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-[#111] border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-                {/* Abstract background glow */}
-                <div className="absolute -top-24 -right-24 w-48 h-48 bg-blue-500/20 blur-[100px] rounded-full"></div>
-                <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-purple-500/20 blur-[100px] rounded-full"></div>
+        <div className="min-h-screen flex bg-white font-sans selection:bg-purple-100 items-center justify-center relative">
 
-                <div className="relative z-10">
-                    <h1 className="text-3xl font-bold text-white mb-2 text-center">Welcome Back</h1>
-                    <p className="text-gray-400 text-center mb-8 italic">Sign in to your trading terminal</p>
+            {/* Back Button - Positioned relative to screen */}
+            <Link
+                href="/"
+                className="absolute top-8 left-8 lg:top-12 lg:left-12 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-purple-600 transition-all group z-50"
+            >
+                <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" strokeWidth={3} />
+                Return to Home
+            </Link>
 
-                    {error && (
-                        <div className="bg-red-500/10 border border-red-500/50 text-red-500 rounded-xl p-3 mb-6 text-sm">
-                            {error}
-                        </div>
+            {/* CENTERED FORM AREA */}
+            <div className="w-full max-w-[500px] bg-white flex flex-col items-center justify-center p-8 relative">
+
+                <div className="w-full space-y-8 relative z-10">
+
+                    {/* Error Message */}
+                    {errorMsg && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                            className="p-4 bg-red-50 border-2 border-red-100 text-red-600 text-[13px] font-bold rounded-2xl text-center shadow-sm uppercase tracking-wide"
+                        >
+                            {errorMsg}
+                        </motion.div>
                     )}
 
-                    <form onSubmit={handleLogin} className="space-y-6">
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Email Address</label>
+                    {/* Brand Logo */}
+                    <div className="flex flex-col items-center mb-8">
+                        <div className="flex flex-col items-center leading-none text-zinc-900">
+                            <span className="text-5xl font-normal tracking-tight">Invest <span className="text-purple-600 font-bold">ZEN</span></span>
+                        </div>
+                    </div>
+
+                    <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center"><div className="w-full border-t-2 border-zinc-50"></div></div>
+                        <div className="relative flex justify-center text-[10px]"><span className="px-4 bg-white text-zinc-400 font-black uppercase tracking-widest">Login</span></div>
+                    </div>
+
+                    <div className="bg-zinc-50 p-1.5 rounded-2xl flex border-2 border-zinc-100">
+                        <div className="flex-1 bg-white shadow-sm text-zinc-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center border border-zinc-100">
+                            Sign In
+                        </div>
+                        <Link
+                            href="/auth/register"
+                            className="flex-1 text-zinc-400 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center hover:text-zinc-900 transition-all"
+                        >
+                            Sign Up
+                        </Link>
+                    </div>
+
+                    {/* Form */}
+                    <div className="space-y-5">
+                        <div className="relative group">
+                            <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                             <input
                                 type="email"
+                                placeholder="EMAIL ADDRESS"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
-                                required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                                disabled={loading}
+                                className="w-full pl-14 pr-6 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                             />
                         </div>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Password</label>
+                        <div className="relative group">
+                            <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="PASSWORD"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all"
+                                disabled={loading}
+                                className="w-full pl-14 pr-14 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-300 hover:text-zinc-900 transition-colors"
+                            >
+                                {showPassword ? <EyeOff size={18} strokeWidth={2.5} /> : <Eye size={18} strokeWidth={2.5} />}
+                            </button>
                         </div>
 
                         <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-500 hover:to-blue-400 text-white font-semibold py-3 rounded-xl shadow-lg shadow-blue-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
+                            onClick={handleLogin}
+                            disabled={loading || !email || !password}
+                            className="group w-full bg-[#202124] text-white py-5 rounded-2xl hover:bg-black transition-all shadow-xl shadow-zinc-900/10 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-widest"
                         >
                             {loading ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Signing in...
+                                <span className="flex items-center gap-2">
+                                    <Loader2 className="animate-spin" size={16} /> Authenticating...
                                 </span>
-                            ) : 'Sign In'}
+                            ) : (
+                                <>
+                                    Log In
+                                </>
+                            )}
                         </button>
-                    </form>
+                    </div>
 
-                    <p className="mt-8 text-center text-gray-400 text-sm">
-                        Don't have an account?{' '}
-                        <Link href="/auth/register" className="text-blue-400 hover:text-blue-300 font-medium underline underline-offset-4 decoration-blue-400/30">
-                            Create an account
-                        </Link>
-                    </p>
+                    <div className="flex flex-col items-center gap-4">
+                        <button onClick={handleForgotPassword} className="text-[10px] font-black uppercase tracking-widest text-zinc-400 hover:text-zinc-900 transition-all border-b border-transparent hover:border-zinc-900 pb-0.5">
+                            Recover Access Credentials
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

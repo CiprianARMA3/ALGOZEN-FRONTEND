@@ -1,31 +1,40 @@
 "use client";
 
-import { useState } from 'react';
-import { createClient } from '@supabase/supabase-js';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
+import useRedirectIfAuth from "@/hooks/useRedirectIfAuth";
+import Link from "next/link";
+import {
+    ArrowLeft,
+    Mail,
+    Lock,
+    Eye,
+    EyeOff,
+    Zap,
+    Loader2,
+    User
+} from "lucide-react";
+import { motion } from "framer-motion";
 
-const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
-
+const supabase = createClient();
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 
-const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 export default function RegisterPage() {
+    useRedirectIfAuth();
+    const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [name, setName] = useState('');
     const [surname, setSurname] = useState('');
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string | null>(null);
-    const router = useRouter();
+    const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-    const handleRegister = async (e: React.FormEvent) => {
-        e.preventDefault();
+    const handleRegister = async () => {
         setLoading(true);
-        setError(null);
+        setErrorMsg(null);
 
         try {
             // 1. Register with Supabase Auth
@@ -35,7 +44,8 @@ export default function RegisterPage() {
                 options: {
                     data: {
                         username: username,
-                        full_name: `${name} ${surname}`,
+                        name: name, // Changed from full_name to name
+                        surname: surname, // Added surname
                     },
                 },
             });
@@ -60,117 +70,151 @@ export default function RegisterPage() {
                 console.warn('Sync warning:', syncError.detail);
             }
 
-            alert('Check your email for the confirmation link!');
-            router.push('/auth/login');
+            // alert('Check your email for the confirmation link!');
+            router.push('/auth/confirm-email');
         } catch (err: any) {
-            setError(err.message || 'Failed to sign up');
+            setErrorMsg(err.message || 'Failed to sign up');
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-[#0a0a0a] flex items-center justify-center p-4">
-            <div className="max-w-md w-full bg-[#111] border border-white/10 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
-                {/* Abstract background glow */}
-                <div className="absolute -top-24 -left-24 w-48 h-48 bg-purple-500/20 blur-[100px] rounded-full"></div>
-                <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-blue-500/20 blur-[100px] rounded-full"></div>
+        <div className="min-h-screen flex bg-white font-sans selection:bg-purple-100 items-center justify-center relative">
 
-                <div className="relative z-10">
-                    <h1 className="text-3xl font-bold text-white mb-2 text-center">Create Account</h1>
-                    <p className="text-gray-400 text-center mb-8 italic">Join the next generation of trading</p>
+            {/* Back Button - Positioned relative to screen */}
+            <Link
+                href="/"
+                className="absolute top-8 left-8 lg:top-12 lg:left-12 flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-400 hover:text-purple-600 transition-all group z-50"
+            >
+                <ArrowLeft size={14} className="transition-transform group-hover:-translate-x-1" strokeWidth={3} />
+                Return to Home
+            </Link>
 
-                    {error && (
-                        <div className="bg-red-500/10 border border-red-500/50 text-red-500 rounded-xl p-3 mb-6 text-sm">
-                            {error}
-                        </div>
+            {/* CENTERED FORM AREA */}
+            <div className="w-full max-w-[500px] bg-white flex flex-col items-center justify-center p-8 relative">
+
+                <div className="w-full space-y-8 relative z-10">
+
+                    {/* Error Message */}
+                    {errorMsg && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}
+                            className="p-4 bg-red-50 border-2 border-red-100 text-red-600 text-[13px] font-bold rounded-2xl text-center shadow-sm uppercase tracking-wide"
+                        >
+                            {errorMsg}
+                        </motion.div>
                     )}
 
-                    <form onSubmit={handleRegister} className="space-y-4">
+                    {/* Brand Logo */}
+                    <div className="flex flex-col items-center mb-8">
+                        <div className="flex flex-col items-center leading-none text-zinc-900">
+                            <span className="text-5xl font-normal tracking-tight">Invest <span className="text-purple-600 font-bold">ZEN</span></span>
+                        </div>
+                    </div>
+
+                    <div className="relative py-2">
+                        <div className="absolute inset-0 flex items-center"><div className="w-full border-t-2 border-zinc-50"></div></div>
+                        <div className="relative flex justify-center text-[10px]"><span className="px-4 bg-white text-zinc-400 font-black uppercase tracking-widest">Create Account</span></div>
+                    </div>
+
+                    <div className="bg-zinc-50 p-1.5 rounded-2xl flex border-2 border-zinc-100">
+                        <Link
+                            href="/auth/login"
+                            className="flex-1 text-zinc-400 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center hover:text-zinc-900 transition-all"
+                        >
+                            Sign In
+                        </Link>
+                        <div className="flex-1 bg-white shadow-sm text-zinc-900 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest text-center border border-zinc-100">
+                            Sign Up
+                        </div>
+                    </div>
+
+                    {/* Form */}
+                    <div className="space-y-5">
                         <div className="grid grid-cols-2 gap-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-300 ml-1">Name</label>
+                            <div className="relative group">
+                                <User className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                                 <input
                                     type="text"
+                                    placeholder="NAME"
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
-                                    placeholder="John"
                                     required
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                                    className="w-full pl-14 pr-6 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                                 />
                             </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-gray-300 ml-1">Surname</label>
+                            <div className="relative group">
+                                <User className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                                 <input
                                     type="text"
+                                    placeholder="SURNAME"
                                     value={surname}
                                     onChange={(e) => setSurname(e.target.value)}
-                                    placeholder="Doe"
                                     required
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                                    className="w-full pl-14 pr-6 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                                 />
                             </div>
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Username</label>
+                        <div className="relative group">
+                            <User className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                             <input
                                 type="text"
+                                placeholder="USERNAME"
                                 value={username}
                                 onChange={(e) => setUsername(e.target.value)}
-                                placeholder="trader_pro"
                                 required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                                className="w-full pl-14 pr-6 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                             />
                         </div>
 
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Email Address</label>
+                        <div className="relative group">
+                            <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                             <input
                                 type="email"
+                                placeholder="EMAIL ADDRESS"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="name@example.com"
-                                required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                                disabled={loading}
+                                className="w-full pl-14 pr-6 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                             />
                         </div>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-300 ml-1">Password</label>
+                        <div className="relative group">
+                            <Lock className="absolute left-5 top-1/2 -translate-y-1/2 text-zinc-400 group-focus-within:text-purple-600 transition-colors" size={18} strokeWidth={2.5} />
                             <input
-                                type="password"
+                                type={showPassword ? "text" : "password"}
+                                placeholder="PASSWORD"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="••••••••"
-                                required
-                                className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-gray-600 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500/50 transition-all"
+                                disabled={loading}
+                                className="w-full pl-14 pr-14 py-5 bg-zinc-50 border-2 border-zinc-100 rounded-2xl focus:outline-none focus:border-purple-600/30 focus:bg-white transition-all shadow-inner text-sm font-bold text-zinc-800 placeholder:text-zinc-400 placeholder:font-bold"
                             />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-5 top-1/2 -translate-y-1/2 text-zinc-300 hover:text-zinc-900 transition-colors"
+                            >
+                                {showPassword ? <EyeOff size={18} strokeWidth={2.5} /> : <Eye size={18} strokeWidth={2.5} />}
+                            </button>
                         </div>
 
                         <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-semibold py-3 rounded-xl shadow-lg shadow-purple-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed transform active:scale-[0.98]"
+                            onClick={handleRegister}
+                            disabled={loading || !email || !password || !name || !surname || !username}
+                            className="group w-full bg-[#202124] text-white py-5 rounded-2xl hover:bg-black transition-all shadow-xl shadow-zinc-900/10 active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-[11px] font-black uppercase tracking-widest"
                         >
                             {loading ? (
-                                <span className="flex items-center justify-center gap-2">
-                                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                    </svg>
-                                    Creating account...
+                                <span className="flex items-center gap-2">
+                                    <Loader2 className="animate-spin" size={16} /> Creating Account...
                                 </span>
-                            ) : 'Get Started'}
+                            ) : (
+                                <>
+                                    Register
+                                </>
+                            )}
                         </button>
-                    </form>
-
-                    <p className="mt-8 text-center text-gray-400 text-sm">
-                        Already have an account?{' '}
-                        <Link href="/auth/login" className="text-purple-400 hover:text-purple-300 font-medium underline underline-offset-4 decoration-purple-400/30">
-                            Sign in
-                        </Link>
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
