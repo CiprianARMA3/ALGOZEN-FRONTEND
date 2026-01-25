@@ -47,8 +47,12 @@ export default function LoginPage() {
                 return;
             }
 
-            // Basic redirection to dashboard
-            router.push("/dashboard");
+            // Check for email confirmation before redirecting
+            if (data.user.email_confirmed_at) {
+                router.push("/dashboard");
+            } else {
+                router.push("/auth/confirm-email");
+            }
 
         } catch (err: any) {
             setErrorMsg(err.message || "An unexpected error occurred");

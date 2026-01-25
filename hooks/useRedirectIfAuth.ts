@@ -13,7 +13,11 @@ export default function useRedirectIfAuth() {
             try {
                 const { data: { session } } = await supabase.auth.getSession();
                 if (session) {
-                    router.replace("/dashboard");
+                    if (session.user?.email_confirmed_at) {
+                        router.replace("/dashboard");
+                    } else {
+                        router.replace("/auth/confirm-email");
+                    }
                 }
             } catch (error) {
                 console.error("Error checking auth status:", error);
