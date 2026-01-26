@@ -26,6 +26,11 @@ import {
     User as UserIcon,
     ChevronDown,
     Loader2,
+    ChartCandlestick,
+    Earth,
+    Newspaper,
+    Braces,
+    ChartArea,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -246,26 +251,40 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
         {
             title: "Navigation",
             items: [
-                { label: "Dashboard", icon: LayoutGrid, href: `/dashboard/projects/${project.id}` },
-                { label: "Market Overview", icon: Activity, href: `/dashboard/projects/${project.id}/market` },
+                { label: "Overview", icon: LayoutGrid, href: `/dashboard/projects/${project.id}` },
+                { label: "Trading Account", icon: ChartArea, href: `/dashboard/projects/${project.id}` },
+                { label: "Trades", icon: ChartCandlestick, href: `/dashboard/projects/${project.id}` },
+                { label: "Market ", icon: Earth, href: `/dashboard/projects/${project.id}/market` },
+                { label: "Economic Calendar ", icon: Newspaper, href: `/dashboard/projects/${project.id}/market` },
             ],
         },
+
+        
         {
+            title: "Financial Analysis",
+            items: [
+                { label: "Trades", icon: ChartCandlestick, href: `/dashboard/projects/${project.id}/ai/ai-assistant` },
+                { label: "Market", icon: Earth, href: `/dashboard/projects/${project.id}/ai/ai-assistant` },
+                { label: "Economic Calendar", icon: Newspaper, href: `/dashboard/projects/${project.id}/ai/ai-assistant` },
+
+            ],
+        },
+
+                        {
             title: "Development",
             items: [
-                { label: "Tasks", icon: ClipboardCheck, href: `/dashboard/projects/${project.id}/development/tasks` },
-            ],
-        },
-        {
-            title: "Artificial Intelligence",
-            items: [
-                { label: "AI Assistant", icon: Activity, href: `/dashboard/projects/${project.id}/ai/ai-assistant` },
+                { label: "Data Overview", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },
+                { label: "Trades", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },
+                { label: "Market Data", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },
+                { label: "Analysis Data", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },
+                { label: "API", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },
             ],
         },
         {
             title: "Configure",
             items: [
-                { label: "Settings", icon: Settings, href: `/dashboard/projects/${project.id}/settings/project-settings` },
+                { label: "Trader Account Settings", icon: Settings, href: `/dashboard/projects/${project.id}/settings/project-settings` },
+                { label: "Account Settings", icon: Settings, href: `/dashboard/projects/${project.id}/settings/project-settings` },
             ],
         },
     ];
