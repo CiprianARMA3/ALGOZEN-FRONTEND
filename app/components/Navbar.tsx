@@ -572,7 +572,7 @@ const Navbar = ({ className = "" }) => {
                                 <input
                                     type="text"
                                     placeholder={t.askQuestion}
-                                    className="w-full bg-white border border-zinc-200 rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20"
+                                    className="w-full bg-white border border-zinc-200 rounded-lg py-3 pl-10 pr-4 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 text-black"
                                 />
                                 <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#202124] text-white p-1.5 rounded-md hover:bg-black transition-colors">
                                     <Search size={14} />

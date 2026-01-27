@@ -116,7 +116,7 @@ export const TradeHistory = () => {
             {/* Header */}
             <div className="p-4 sm:p-6 pb-4 sm:pb-4 flex justify-between items-center border-b border-gray-50 dark:border-white/5">
                 <div className="flex items-center gap-3">
-                    <h3 className="text-sm sm:text-[15px] font-black dark:text-white tracking-tight">Top Portfolio Positions</h3>
+                    <h3 className="text-sm sm:text-[15px] font-black dark:text-white tracking-tight">Portfolio Positions</h3>
                     <span className="text-[9px] sm:text-[10px] font-black text-zinc-400 bg-zinc-100 dark:bg-white/5 px-2 py-0.5 rounded-full uppercase tracking-widest hidden sm:inline">Live View</span>
                 </div>
                 <button className="p-1 px-2 hover:bg-purple-50 dark:hover:bg-purple-500/10 rounded-lg transition-colors group/btn">

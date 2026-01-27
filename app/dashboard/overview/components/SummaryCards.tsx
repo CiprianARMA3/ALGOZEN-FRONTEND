@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TrendingUp, TrendingDown, ArrowUpRight } from 'lucide-react';
-import { AreaChart, Area, ResponsiveContainer } from 'recharts';
+import { AreaChart, Area, ResponsiveContainer, Tooltip } from 'recharts';
 
 const SUMMARY_CARDS = [
     {
@@ -55,62 +55,97 @@ const SUMMARY_CARDS = [
     }
 ];
 
-const SummaryCard = ({ data }: { data: typeof SUMMARY_CARDS[0] }) => (
-    <div className="bg-white dark:bg-[#111111] border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-2 relative overflow-hidden group hover:border-purple-500/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-purple-500/5">
-        <div className="flex justify-between items-start">
-            <span className="text-[9px] uppercase font-black text-zinc-400 dark:text-zinc-500 tracking-widest">{data.title}</span>
-            <button className="p-0.5 px-1.5 hover:bg-purple-50 dark:hover:bg-purple-500/10 rounded-lg transition-colors group/btn">
-                <ArrowUpRight size={12} className="text-zinc-400 group-hover/btn:text-purple-500 transition-colors" />
-            </button>
-        </div>
+const CustomSparklineTooltip = ({ active, payload, baseValue }: any) => {
+    if (active && payload && payload.length) {
+        const value = payload[0].value;
+        const profit = value - baseValue;
+        const percentage = baseValue !== 0 ? ((profit / baseValue) * 100).toFixed(2) : '0.00';
+        const isPositive = profit >= 0;
 
-        <div className="flex items-baseline gap-1.5">
-            <span className="text-xl font-black dark:text-white tracking-tight">{data.value}</span>
-        </div>
-
-        <div className="flex items-center gap-2 mt-0.5">
-            <div className={`flex items-center gap-1 text-[9px] font-black ${data.isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
-                {data.isPositive ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
-                <span className="tracking-tight">{data.percentage}</span>
+        return (
+            <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-white/10 px-2.5 py-1.5 rounded-lg shadow-2xl backdrop-blur-md flex flex-col gap-0.5">
+                <div className="flex items-center gap-1.5">
+                    <span className={`text-[10px] font-black ${isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
+                        {isPositive ? '+' : ''}${profit.toLocaleString()}
+                    </span>
+                    <span className="text-[8px] font-black text-zinc-500 dark:text-white/50 bg-zinc-100 dark:bg-white/10 px-1 py-0.5 rounded leading-none">
+                        {isPositive ? '+' : ''}{percentage}%
+                    </span>
+                </div>
+                <p className="text-[7px] font-black text-zinc-400 dark:text-zinc-500 uppercase tracking-widest leading-none">
+                    Total: ${value.toLocaleString()}
+                </p>
             </div>
-            <span className={`text-[8px] font-black ${data.rrValue.startsWith('+') ? 'text-emerald-500 bg-emerald-500/10' : 'text-red-500 bg-red-500/10'} px-1.5 py-0.5 rounded-full`}>
-                {data.rrValue}
-            </span>
-        </div>
+        );
+    }
+    return null;
+};
 
-        <div className="h-10 -mx-4 mt-1">
-            <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={data.sparklineData}>
-                    <defs>
-                        <linearGradient id={`grad-${data.title.replace(' ', '')}`} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor="#9333ea" stopOpacity={0.4} />
-                            <stop offset="95%" stopColor="#9333ea" stopOpacity={0} />
-                        </linearGradient>
-                    </defs>
-                    <Area
-                        type="monotone"
-                        dataKey="value"
-                        stroke="#9333ea"
-                        strokeWidth={2}
-                        fill={`url(#grad-${data.title.replace(' ', '')})`}
-                        dot={false}
-                    />
-                </AreaChart>
-            </ResponsiveContainer>
-        </div>
+const SummaryCard = ({ data }: { data: typeof SUMMARY_CARDS[0] }) => {
+    const baseValue = data.sparklineData[0].value;
 
-        <div className="flex justify-between items-end mt-auto pt-3 border-t border-gray-100 dark:border-white/5">
-            <div className="flex flex-col">
-                <span className="text-[14px] font-black dark:text-white leading-none tracking-tight">{data.successRate}</span>
-                <span className="text-[7px] uppercase text-zinc-500 dark:text-zinc-600 font-black tracking-widest mt-1 leading-none">success rate</span>
+    return (
+        <div className="bg-white dark:bg-[#111111] border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex flex-col gap-2 relative overflow-hidden group hover:border-purple-500/30 transition-all duration-300 shadow-sm hover:shadow-xl hover:shadow-purple-500/5">
+            <div className="flex justify-between items-start">
+                <span className="text-[9px] uppercase font-black text-zinc-400 dark:text-zinc-500 tracking-widest">{data.title}</span>
+                <button className="p-0.5 px-1.5 hover:bg-purple-50 dark:hover:bg-purple-500/10 rounded-lg transition-colors group/btn">
+                    <ArrowUpRight size={12} className="text-zinc-400 group-hover/btn:text-purple-500 transition-colors" />
+                </button>
             </div>
-            <div className="flex flex-col items-end">
-                <span className="text-[14px] font-black dark:text-white leading-none tracking-tight">{data.trades}</span>
-                <span className="text-[7px] uppercase text-zinc-500 dark:text-zinc-600 font-black tracking-widest mt-1 leading-none">trades</span>
+
+            <div className="flex items-baseline gap-1.5">
+                <span className="text-xl font-black dark:text-white tracking-tight">{data.value}</span>
+            </div>
+
+            <div className="flex items-center gap-2 mt-0.5">
+                <div className={`flex items-center gap-1 text-[9px] font-black ${data.isPositive ? 'text-emerald-500' : 'text-red-500'}`}>
+                    {data.isPositive ? <TrendingUp size={10} strokeWidth={3} /> : <TrendingDown size={10} strokeWidth={3} />}
+                    <span className="tracking-tight">{data.percentage}</span>
+                </div>
+                <span className={`text-[8px] font-black ${data.rrValue.startsWith('+') ? 'text-emerald-500 bg-emerald-500/10' : 'text-red-500 bg-red-500/10'} px-1.5 py-0.5 rounded-full`}>
+                    {data.rrValue}
+                </span>
+            </div>
+
+            <div className="h-16 sm:h-10 -mx-4 mt-1">
+                <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={data.sparklineData}>
+                        <defs>
+                            <linearGradient id={`grad-${data.title.replace(' ', '')}`} x1="0" y1="0" x2="0" y2="1">
+                                <stop offset="5%" stopColor="#9333ea" stopOpacity={0.4} />
+                                <stop offset="95%" stopColor="#9333ea" stopOpacity={0} />
+                            </linearGradient>
+                        </defs>
+                        <Tooltip
+                            content={<CustomSparklineTooltip baseValue={baseValue} />}
+                            position={{ y: -30 }}
+                            cursor={false}
+                        />
+                        <Area
+                            type="monotone"
+                            dataKey="value"
+                            stroke="#9333ea"
+                            strokeWidth={2}
+                            fill={`url(#grad-${data.title.replace(' ', '')})`}
+                            dot={false}
+                        />
+                    </AreaChart>
+                </ResponsiveContainer>
+            </div>
+
+            <div className="flex justify-between items-end mt-auto pt-3 border-t border-gray-100 dark:border-white/5">
+                <div className="flex flex-col">
+                    <span className="text-[14px] font-black dark:text-white leading-none tracking-tight">{data.successRate}</span>
+                    <span className="text-[7px] uppercase text-zinc-500 dark:text-zinc-600 font-black tracking-widest mt-1 leading-none">success rate</span>
+                </div>
+                <div className="flex flex-col items-end">
+                    <span className="text-[14px] font-black dark:text-white leading-none tracking-tight">{data.trades}</span>
+                    <span className="text-[7px] uppercase text-zinc-500 dark:text-zinc-600 font-black tracking-widest mt-1 leading-none">trades</span>
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
+};
 
 export const SummaryCards = () => {
     return (

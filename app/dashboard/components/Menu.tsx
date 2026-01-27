@@ -186,7 +186,7 @@ const SidebarContent = ({
                                 >
                                     <item.icon className={`
                   w-4 h-4 shrink-0 transition-all duration-300 ease-in-out
-                  ${active ? "text-purple-500 dark:text-blue-400" : "text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400"}
+                  ${active ? "text-purple-500 dark:text-purple-400" : "text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400"}
                 `} />
 
                                     {(!collapsed || isMobile) && (
@@ -259,7 +259,7 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
             ],
         },
 
-        
+
         {
             title: "Financial Analysis",
             items: [
@@ -270,7 +270,7 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
             ],
         },
 
-                        {
+        {
             title: "Development",
             items: [
                 { label: "Data Overview", icon: Braces, href: `/dashboard/projects/${project.id}/development/tasks` },

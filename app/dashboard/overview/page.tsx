@@ -1,11 +1,28 @@
 "use client";
 
 import React from 'react';
+
 import { SummaryCards } from './components/SummaryCards';
 import { PerformanceCharts } from './components/PerformanceCharts';
 import { TradeHistory } from './components/TradeHistory';
+import { Loader2 } from 'lucide-react';
 
 export default function Overview() {
+    const [loading, setLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        const timer = setTimeout(() => setLoading(false), 1000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[60vh]">
+                <Loader2 className="w-10 h-10 animate-spin text-purple-600 mb-4" strokeWidth={3} />
+            </div>
+        );
+    }
+
     return (
         <div className="flex flex-col gap-6 w-full max-w-[1600px] mx-auto px-4 sm:px-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
 
