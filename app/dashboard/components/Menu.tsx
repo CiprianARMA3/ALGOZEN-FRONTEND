@@ -178,7 +178,7 @@ const SidebarContent = ({
                                     className={`
                   group flex items-center gap-2.5 px-2 py-2 rounded text-[12px] font-bold transition-all duration-150 
                   ${active ?
-                                            "bg-blue-50 text-blue-600 dark:bg-blue-500/20 dark:text-white border-l-2 border-blue-500 rounded-l-none" :
+                                            "bg-purple-50 text-purple-600 dark:bg-purple-500/20 dark:text-white border-l-2 border-purple-500 rounded-l-none" :
                                             "text-zinc-500 dark:text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-300 hover:bg-gray-100 dark:hover:bg-white/[0.03]"
                                         }
                 `}
@@ -186,7 +186,7 @@ const SidebarContent = ({
                                 >
                                     <item.icon className={`
                   w-4 h-4 shrink-0 transition-all duration-300 ease-in-out
-                  ${active ? "text-blue-500 dark:text-blue-400" : "text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400"}
+                  ${active ? "text-purple-500 dark:text-blue-400" : "text-zinc-400 dark:text-zinc-600 group-hover:text-zinc-600 dark:group-hover:text-zinc-400"}
                 `} />
 
                                     {(!collapsed || isMobile) && (
@@ -251,7 +251,7 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
         {
             title: "Navigation",
             items: [
-                { label: "Overview", icon: LayoutGrid, href: `/dashboard/projects/${project.id}` },
+                { label: "Overview", icon: LayoutGrid, href: `/dashboard/overview` },
                 { label: "Trading Account", icon: ChartArea, href: `/dashboard/projects/${project.id}` },
                 { label: "Trades", icon: ChartCandlestick, href: `/dashboard/projects/${project.id}` },
                 { label: "Market ", icon: Earth, href: `/dashboard/projects/${project.id}/market` },
@@ -390,7 +390,7 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <Link href="/" className="flex items-center gap-2 group">
                         <span className="text-md font-normal tracking-tight text-black dark:text-white/90 ">
-                            Invest <span className="text-purple-600 dark:text-purple-300 font-black tracking-tighter shadow-purple-500/20">ZEN</span>
+                            Invest <span className="text-purple-600 dark:text-purple-300 font-black tracking-tighter shadow-purple-500/20"><span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">ZEN</span></span>
                         </span>
                     </Link>
                 </div>
