@@ -251,11 +251,11 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
         {
             title: "Navigation",
             items: [
-                { label: "Overview", icon: LayoutGrid, href: `/dashboard/overview` },
-                { label: "Trading Account", icon: ChartArea, href: `/dashboard/projects/${project.id}` },
-                { label: "Trades", icon: ChartCandlestick, href: `/dashboard/projects/${project.id}` },
-                { label: "Market ", icon: Earth, href: `/dashboard/projects/${project.id}/market` },
-                { label: "Economic Calendar ", icon: Newspaper, href: `/dashboard/projects/${project.id}/market` },
+                { label: "Overview", icon: LayoutGrid, href: `/dashboard/navigation/overview` },
+                { label: "Trading Account", icon: ChartArea, href: `/dashboard/navigation/trading-account` },
+                { label: "Trades", icon: ChartCandlestick, href: `/dashboard/navigation/trades` },
+                { label: "Market ", icon: Earth, href: `/dashboard/navigation/market` },
+                { label: "Economic Calendar ", icon: Newspaper, href: `/dashboard/navigation/economic-calendar` },
             ],
         },
 
