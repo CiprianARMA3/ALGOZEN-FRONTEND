@@ -390,7 +390,7 @@ export default function Menu({ project, user, isCollapsed, onToggle }: MenuProps
                 <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
                     <Link href="/" className="flex items-center gap-2 group">
                         <span className="text-md font-normal tracking-tight text-black dark:text-white/90 ">
-                            Invest <span className="text-purple-600 dark:text-purple-300 font-black tracking-tighter shadow-purple-500/20"><span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">ZEN</span></span>
+                            <span className="font-bold">Invest</span> <span className="text-purple-600 dark:text-purple-300 font-black tracking-tighter shadow-purple-500/20"><span className="bg-clip-text bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">ZEN</span></span>
                         </span>
                     </Link>
                 </div>
